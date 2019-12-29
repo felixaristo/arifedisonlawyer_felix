@@ -4,4 +4,4 @@ Soal Interview
 Nama File = soalinterview.py
 
 Coding Test
-Nama File = index.html
+Nama File = index.html (dengan teknologi Vue.js)
