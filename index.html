@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Arif Edison Lawyer</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid grey;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>Booking List</h2>
+    <button id="buttonBookingList" v-on:click="showBookingList">Booking List</button>
+    <div id="bookingList" style="margin-top: 10px;">
+        <table border="0" cellspacing="10">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Booking Name</th>
+                    <th>Payment Proof Id</th>
+                    <th>Payment Approved</th>
+                    <th>Lawyer Id</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for = "(item, index) in items">
+                    <td>{{ item.bookingId }}</td>
+                    <td>{{ item.bookingName }}</td>
+                    <td>{{ item.paymentProofId }}</td>
+                    <td v-if="item.paymentApproved == 0" >False</td>
+                    <td v-else>True</td>
+                    <td>{{ item.lawyerId }}</td>
+                    <td><button v-on:click="approve(index)">Approve</button></td>
+                    <td v-if="item.show == true"><button v-on:click="assignLawyer(item.bookingId)">Assign Lawyer</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="assgnLawyer" style="margin-top: 10px;">
+        <h2 style="margin: 40px 0px 10px;">Lawyer List</h2>
+
+        <table  border="0" cellspacing="10">
+            <thead>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                <tr v-for = "(item, index) in items">
+                    <td>{{ item.lawyerId }}</td>
+                    <td>{{ item.lawyerFullName }}</td>
+                    <td>{{ item.lawyerPhoneNumber }}</td>
+                    <td>{{ item.assignStatus }}</td>
+                    <td><button v-on:click="assigned(item.lawyerId, index)">Assign</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script>
+    $("#assgnLawyer").hide();
+    $("#buttonBookingList").hide();
+
+    var bookedList = "";
+    var bookId = "";
+    var indexBook = "";
+
+    new Vue({
+        el: '#buttonBookingList',
+        methods: {
+            showBookingList: function(event){
+                $("#bookingList").show();
+                $("#buttonAssign").show();
+                $("#assgnLawyer").hide();
+                $("#buttonBookingList").hide();
+            }
+        }
+    })
+
+    new Vue({
+        el: '#assgnLawyer',
+        data: {
+            items: [
+                { 
+                    lawyerId: 1, 
+                    lawyerFullName: "Richard Gustava", 
+                    lawyerPhoneNumber: 081678900987,
+                    assignStatus: "Not Assigned"
+                },
+                { 
+                    lawyerId: 2, 
+                    lawyerFullName: "John Doe", 
+                    lawyerPhoneNumber: 081512344321,
+                    assignStatus: "Not Assigned"
+                }
+            ]
+        },
+        methods: {
+            assigned: function(event, index){
+                console.log(event);
+                bookL.items[indexBook].lawyerId = event
+                this.items[index].assignStatus = "Assigned to Booking ID " + bookId
+            }
+        }
+    })
+
+    var bookL = new Vue({
+        el: '#bookingList',
+        data: {
+            items: [
+                { 
+                    bookingId: 1, 
+                    bookingName: "First Booking", 
+                    paymentProofId: 1, 
+                    paymentApproved: 0, 
+                    lawyerId: 0,
+                    show: false
+                },
+                { 
+                    bookingId: 2, 
+                    bookingName: "Second Booking", 
+                    paymentProofId: 1, 
+                    paymentApproved: 0, 
+                    lawyerId: 0,
+                    show: false
+                }
+            ]
+        },
+        methods: {
+            approve: function(event){
+
+                this.items[event].paymentApproved = 1
+                this.items[event].show = true
+
+                indexBook = event;
+                bookedList = JSON.stringify(this.items[event]);
+                console.log(JSON.stringify(this.items[event]));
+            },
+            assignLawyer: function(event){
+                bookId = event;
+                $("#assgnLawyer").show();
+            }
+        }
+    })
+
+</script>
+</html>
