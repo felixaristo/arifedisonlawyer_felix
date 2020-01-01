@@ -16,6 +16,13 @@
     palindromeDetection("Abcba") # Run the function
 
     # Return False
+    
+    # Big O Notation
+    
+    # Untuk nilai Time Complexity bernilai O(1) 
+    # karena function itu menjalankan hanya sekali instuksi return.
+    # Dan untuk nilai Space Complexity bernilai O(N) 
+    # karena variable 'wordsReversed' membutuhkan sebuah unit ruang yang bergantung pada panjangnya data yang diberikan.
 
 # End Number 1
 
